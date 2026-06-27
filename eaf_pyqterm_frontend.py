@@ -653,7 +653,7 @@ class FrontendWidget(QWidget):
                 screen.cursor_move_mode = False
                 screen.sync_cursor()
 
-                eval_in_emacs("eaf--toggle-cursor-move-mode", ["'nil"])
+                eval_in_emacs("eaf--toggle-cursor-move-mode", [self.buffer_id, "'nil"])
 
             self.releaseMouse()
 

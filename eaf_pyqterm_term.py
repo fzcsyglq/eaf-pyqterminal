@@ -45,6 +45,7 @@ class TerminalScreen(HistoryScreen):
         self.old_marker_cursor = Cursor(0, 0)
 
         self.mouse = False
+        self.buffer_id = ""
 
     def absolute_y(self, line_num: int) -> int:
         return self.base + line_num
@@ -247,7 +248,7 @@ class TerminalScreen(HistoryScreen):
         self.fake_marker = False
         self.mouse = False
 
-        eval_in_emacs("eaf--toggle-cursor-move-mode", ["'t" if status else "'nil"])
+        eval_in_emacs("eaf--toggle-cursor-move-mode", [self.buffer_id, "'t" if status else "'nil"])
 
     def adjust_x(self, y: int) -> None:
         """Recalibrate the x of the virtual cursor."""
@@ -493,7 +494,7 @@ class TerminalScreen(HistoryScreen):
                 if self.in_history:
                     self.cursor_move_mode = False
                     self.virtual_cursor.hidden = True
-                    eval_in_emacs("eaf--toggle-cursor-move-mode", ["'nil"])
+                    eval_in_emacs("eaf--toggle-cursor-move-mode", [self.buffer_id, "'nil"])
                 else:
                     self.toggle_cursor_move_mode(False)
 

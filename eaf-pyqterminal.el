@@ -212,12 +212,15 @@ If ALWAYS-NEW is non-nil, always open a new terminal for the dedicated DIR."
       "ipython.exe"
     "ipython"))
 
-(defun eaf--toggle-cursor-move-mode (status)
+(defun eaf--toggle-cursor-move-mode (buffer-id status)
   "Toggle Cursor Move Mode."
-  (if status
-      (eaf--gen-keybinding-map eaf-pyqterminal-cursor-move-mode-keybinding t)
-    (eaf--gen-keybinding-map eaf-pyqterminal-keybinding))
-  (setq eaf--buffer-map-alist (list (cons t eaf-mode-map))))
+  (let ((buffer (eaf-get-buffer buffer-id)))
+    (when buffer
+      (with-current-buffer buffer
+        (if status
+            (eaf--gen-keybinding-map eaf-pyqterminal-cursor-move-mode-keybinding t)
+          (eaf--gen-keybinding-map eaf-pyqterminal-keybinding))
+        (setq eaf--buffer-map-alist (list (cons t eaf-mode-map)))))))
 
 (defun eaf-pyqterminal-get-color-schema ()
   (if eaf-pyqterminal-color-schema-from-emacs

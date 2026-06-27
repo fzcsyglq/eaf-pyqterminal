@@ -24,6 +24,8 @@ class AppBuffer(Buffer):
         self.term = FrontendWidget(argv, start_directory)
 
         self.term.buffer_id = buffer_id
+        self.term.backend.screen.buffer_id = buffer_id
+        self.term.backend.buffer_screen.buffer_id = buffer_id
         self.term.change_title = self.change_title
         self.term.backend.close_buffer = self.close_buffer
         self.term.send_input_message = self.send_input_message
